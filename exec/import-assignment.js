@@ -19,7 +19,7 @@ function cloneRepos(studentList, assignmentName){
 
 
 function markAsImported(assignmentName){
-	fs.readFile(`${__dirname}/../dist/submissions/submission-overview.csv`, 'utf-8', function(err, fileContents){
+	fs.readFile(`${__dirname}/../dist/submission-overview.csv`, 'utf-8', function(err, fileContents){
 
 		let submissionList = (fileContents.split(','))
 		if(~submissionList.indexOf(assignmentName)){
