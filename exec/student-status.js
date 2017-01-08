@@ -8,7 +8,7 @@ function checkStudentScores(studentSubmissionsDir){
 	      return;
 	    }
 
-			let csvData = fs.readFileSync(`${__dirname}/../dist/submission-overview.csv`, 'utf-8')
+		let csvData = fs.readFileSync(`${__dirname}/../dist/submission-overview.csv`, 'utf-8')
 	    let submittedAssignments = filenames
 
 			let alreadyImportedList = csvData.replace(/[\r\n]/g, "").split(',')
