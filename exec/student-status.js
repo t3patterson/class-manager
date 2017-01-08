@@ -1,25 +1,35 @@
-var fs = require('fs');
+const fs = require('fs');
+const studentList = require('../src/student-list.js')
 
-let students = [
-	'jordanledford',
-	'marmstr1123',
-	'PaulRSwift'
-]
-
-function readFiles(dirname){
-	fs.readdir(dirname, function(err, filenames) {
+function checkStudentScores(studentSubmissionsDir){
+	fs.readdir(studentSubmissionsDir, function(err, filenames) {
 	    if (err) {
-	      onError(err);
+	      console.log(err);
 	      return;
 	    }
-	    let assignments = filenames.map(function(filename) {
-				console.log(parseInt(filename.split('-')[1], 0))
-	    }); 
+
+			let csvData = fs.readFileSync(`${__dirname}/../dist/submission-overview.csv`, 'utf-8')
+	    let submittedAssignments = filenames
+
+			let alreadyImportedList = csvData.replace(/[\r\n]/g, "").split(',')
+
+			console.log(submittedAssignments	)
+			console.log(alreadyImportedList)
+
+			let studentPerf = alreadyImportedList.map((assignmentName	)=>{
+				console.log(assignmentName)
+				if( ~submittedAssignments.indexOf(assignmentName) ){
+					return '√'
+				} else {
+					return 'x'
+				}
+			})
+
+			console.log(studentPerf)
 	 });
 }
 
 
-readFiles( process.argv[2], function(name, content){
-	process.argv[1]
-	console.log(name)
+studentList.forEach((student)=>{
+	checkStudentScores(`${__dirname}/../dist/submissions/${student}`)
 })

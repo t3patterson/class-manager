@@ -12,18 +12,18 @@ function arrayToCSVLine(data){
 }
 
 function writeCSVFile(err, output){
-	fs.writeFile("./dist/submission-overview.csv", output.join("") )
+	fs.writeFile(`${__dirname}/../dist/submission-overview.csv`, output.join("") )
 }
 
 
 let csvData = ['Assignments', ...studentListDataset ]
 csv.transform(
-   csvData, 
+  csvData,
 	arrayToCSVLine,
 	writeCSVFile
 )
 
-studentListDataset.forEach((githubAcct)=>{ 
+studentListDataset.forEach((githubAcct)=>{
 	console.log(githubAcct)
-	mkdirp(`${__dirname}/../submissions/${githubAcct}`) 
+	mkdirp(`${__dirname}/../dist/submissions/${githubAcct}`)
 })

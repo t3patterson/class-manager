@@ -1,19 +1,36 @@
 const exec = require('child_process').exec;
+const fs = require('fs')
+
 let studentListDataset = require(`../src/student-list.js`)
 
+function cloneRepos(studentList, assignmentName){
+	studentList.forEach((student)=>{
+		exec(`git clone https://github.com/${student}/${assignmentName}.git ${__dirname}/../dist/submissions/${student}/${assignmentName}`, (err, stdout, stderr)=>{
 
-function readFiles(dirname){
-	fs.readdir(dirname, function(err, filenames) {
-	    if (err) {
-	      onError(err);
-	      return;
-	    }
-	    let assignments = filenames.map(function(filename) {
-				console.log(parseInt(filename.split('-')[1], 0))
-	    });
-		 
-	 });
+			if (err) {
+		    console.error(`exec error: ${err}`);
+		    return;
+		  }
+		  console.log(`stdout: ${stdout}`);
+  		console.log(`stderr: ${stderr}`);
+		})
+	})
 }
 
 
-readFiles('../dis')
+function markAsImported(assignmentName){
+	fs.readFile(`${__dirname}/../dist/submissions/submission-overview.csv`, 'utf-8', function(err, fileContents){
+
+		let submissionList = (fileContents.split(','))
+		if(~submissionList.indexOf(assignmentName)){
+			console.log(`'${assignmentName}' is already on the list`)
+		} else {
+			fs.writeFile(`${__dirname}/../dist/submission-overview.csv`, [...submissionList, assignmentName].join(','))
+		}
+	})
+
+}
+
+let assignmentArg = process.argv[2]
+cloneRepos(studentListDataset, assignmentArg)
+markAsImported(assignmentArg)

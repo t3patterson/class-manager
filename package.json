@@ -5,7 +5,8 @@
   "main": "gen-new-class-scaffold.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gen-new-class-scaffold": "node ./exec/gen-new-class-scaffold.js" 
+    "gen-new-class-scaffold": "node ./exec/gen-new-class-scaffold.js",
+    "import-assignment": "node ./exec/import-assignment.js"
   },
   "author": "t3patterson",
   "license": "ISC",
