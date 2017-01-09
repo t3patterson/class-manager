@@ -20,9 +20,9 @@ function cloneRepos(studentList, assignmentName){
 		  
 		  let headerRowDataArray = csvRowsArray.shift().split(',')
 		  
-		  console.log('Assignment Column:', headerRowDataArray.indexOf(assignmentName) )
+		//   console.log('Assignment Column:', headerRowDataArray.indexOf(assignmentName) )
 		  let assignmentColumn = headerRowDataArray.indexOf(assignmentName)
-		  console.log('assignmentColumn: ', assignmentColumn)
+		//   console.log('assignmentColumn: ', assignmentColumn)
 		  let dataRowsArray = csvRowsArray.map((row)=>{ return row.split(',')})
 		  
 		  let studentRowI  
@@ -34,8 +34,6 @@ function cloneRepos(studentList, assignmentName){
 				return false
 		 })
 		
- 	     console.log(studentRow)
-		  console.log(stdout)
 
 		  if( ~stdout.indexOf('owner') && ~stdout.indexOf('full_name') && isNaN(studentRow[assignmentColumn]) ){
 				console.log(`${studentGithub} - ${assignmentName} - YES FOUND`);

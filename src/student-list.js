@@ -3,6 +3,7 @@ let exportarray = [
 	`jordanledford`,
 	`PaulRSwift`,
 	`wallanson2`,
+	`Jordan-wicker`
 ]
 
 

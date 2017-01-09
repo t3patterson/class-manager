@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "gen-new-class-scaffold": "node ./exec/gen-new-class-scaffold.js",
-    "import-assignment": "node ./exec/import-assignment.js"
+    "import-assignment": "node ./exec/import-assignment.js",
+    "eval-assignment": "node ./exec/eval-assignment.js",
+	 "postinstall" : "npm-run-all move-eval-assignment-to-local-bin make-eval-assignment-executable",
+	 "move-eval-assignment-to-local-bin" : "cp ./exec/eval-assignment.js /usr/local/bin/eval-assignment",
+	 "make-eval-assignment-executable:" : "chmod u+x /usr/local/bin/eval-assignment",
+	 "eval-all-students": "node ./exec/student-status.js"
   },
   "author": "t3patterson",
   "license": "ISC",

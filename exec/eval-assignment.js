@@ -1,22 +1,22 @@
-#! /usr/local/bin/node
+#!/usr/bin/env node
+
 const fs = require('fs');
 
-
-function updateStudentRow(studentGithub, assignmentName, assignmentScore){
-	let pathToOverviewCsv = `${process.cwd()}/../../../submission-overview.csv`
-	let csvData = fs.readFileSync(pathToOverviewCsv, 'utf-8')
+function updateStudentRow(configObj){
+	let pathToOverviewCsv = configObj.fileToModify
+	let csvData = fs.readFileSync(configObj.fileToModify, 'utf-8')
 	let csvRowsArray = csvData.split('\n')
 
 	let headerRowDataArray = csvRowsArray.shift().split(',')
 
-	console.log('Assignment Column:', headerRowDataArray.indexOf(assignmentName) )
-	let assignmentColumn = headerRowDataArray.indexOf(assignmentName)
-	console.log('assignmentColumn: ', assignmentColumn)
+	// console.log('Assignment Column:', headerRowDataArray.indexOf(configObj.assignmentName) )
+	let assignmentColumn = headerRowDataArray.indexOf(configObj.assignmentName)
+	// console.log('assignmentColumn: ', assignmentColumn)
 	let dataRowsArray = csvRowsArray.map((row)=>{ return row.split(',')})
 
 	let studentRowI  
 	let studentRow = dataRowsArray.find((row, i)=>{
-		 if (row[0] === studentGithub){
+		 if (row[0] === configObj.studentGithub){
 			 studentRowI = i
 			 return true
 		 }
@@ -24,16 +24,14 @@ function updateStudentRow(studentGithub, assignmentName, assignmentScore){
 	})
 
 
-	 studentRow[assignmentColumn] = assignmentScore
+	 studentRow[assignmentColumn] = configOb.assignmentScore
 
 	 dataRowsArray[studentRowI] = studentRow
 	 let newCsvDataRowsArray = dataRowsArray.map((row)=>{return row.join(',')})
 	 let csvHeaderRow = headerRowDataArray.join(',')
 	 let newCsvRowsArray = [csvHeaderRow, ...newCsvDataRowsArray]
 	 let newCsvData = newCsvRowsArray.join('\n')
-	 fs.writeFileSync(pathToOverviewCsv, newCsvData, {encoding: 'utf-8'} )	
-
-	 
+	 fs.writeFileSync(configObj.fileToModify, newCsvData, {encoding: 'utf-8'} )		 
 }
 
 function createEvaluation(currentDir, firstCliArg, secondCliArg){
@@ -58,13 +56,20 @@ function createEvaluation(currentDir, firstCliArg, secondCliArg){
 	fs.writeFileSync('_instructor-eval.csv', csvData)
 }
 
-let directoryArray = process.cwd().split('/')
-let lastEl = directoryArray.length - 1
-let assignmentDir = directoryArray[lastEl]
-let studentDir = directoryArray[lastEl - 1]
 
+let directoryArray = process.cwd().split('/')
 let studentScore = process.argv[2]
 let instructorComment = process.argv[3]
 
+let assignmentDir = directoryArray.pop()
+let studentDir = directoryArray.pop()
+
+let optionsObject = {
+ studentGithub : studentDir,
+ assignmentName : assignmentDir,
+ assignmentScore: studentScore,
+ fileToModify: `${process.cwd()}/../../../submission-overview.csv`
+}
+
 createEvaluation(assignmentDir, studentScore, instructorComment)
-updateStudentRow( studentDir , assignmentDir, studentScore)
+updateStudentRow( optionsObject )
