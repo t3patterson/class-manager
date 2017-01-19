@@ -24,7 +24,7 @@ function updateStudentRow(configObj){
 	})
 
 
-	 studentRow[assignmentColumn] = configObj.assignmentScore
+	 studentRow[assignmentColumn] = configObj	.assignmentScore
 
 	 dataRowsArray[studentRowI] = studentRow
 	 let newCsvDataRowsArray = dataRowsArray.map((row)=>{return row.join(',')})
